@@ -15,6 +15,7 @@ module Muxilla
     end
 
     def apps
+      # delete this once the call has been removed from the template
       @apps = []
       @apps
     end
