@@ -39,6 +39,7 @@ describe Muxilla::Muxinate do
         File.delete File.expand_path('~/.muxilla.conf')
       end
     end
+
     describe '#feature' do
       it 'requires configuration' do
         Muxilla::Muxinator.should_not_receive(:start)
@@ -81,6 +82,27 @@ describe Muxilla::Muxinate do
             mux.id.should == 1234
           end
           Muxilla::Muxinate.start ['feature', 'foo', '--id', 1234]
+        end
+        it 'respects the code parameter' do
+          Muxilla::Muxinator.should_receive(:start).with do |args|
+            mux = args.first
+            mux.code.should == ['fumanchu']
+          end
+          Muxilla::Muxinate.start ['feature', 'foo', '--apps=code:fumanchu']
+        end
+        it 'respects the rails parameter' do
+          Muxilla::Muxinator.should_receive(:start).with do |args|
+            mux = args.first
+            mux.rails.should == ['fumanchu']
+          end
+          Muxilla::Muxinate.start ['feature', 'foo', '--apps=rails:fumanchu']
+        end
+        it 'respects the resque parameter' do
+          Muxilla::Muxinator.should_receive(:start).with do |args|
+            mux = args.first
+            mux.resque.should == ['fumanchu']
+          end
+          Muxilla::Muxinate.start ['feature', 'foo', '--apps=resque:fumanchu']
         end
         it 'generates a config containing our branch nickname' do
           Muxilla::Muxinate.start ['feature', 'foo']

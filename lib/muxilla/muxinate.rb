@@ -4,7 +4,8 @@ module Muxilla
     include Thor::Actions
     desc 'feature TITLE', 'generate a new tmux config from a feature branch'
     method_options :update => :boolean,
-      :id => :numeric
+      :id => :numeric,
+      :apps => :hash
     def feature(nickname)
       unless File.exists? File.expand_path('~/.muxilla.conf')
         p "Please run muxilla configure to setup your environment first."
