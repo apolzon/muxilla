@@ -5,10 +5,10 @@ describe Muxilla::Mux do
     @options = ['nickname', {}]
   end
   it 'responds to nickname' do
-    Muxilla::Mux.new(*@options).respond_to?(:nickname).should be
+    (Muxilla::Mux.new *@options).respond_to?(:nickname).should be
   end
   it 'responds to type' do
-    Muxilla::Mux.new(*@options).respond_to?(:type).should be
+    (Muxilla::Mux.new *@options).respond_to?(:type).should be
   end
   describe '.new' do
     it 'requires a nickname and options hash' do

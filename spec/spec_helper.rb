@@ -10,7 +10,7 @@ ARGV.clear
 
 Rspec.configure do |config|
 
-  def capture(stream)
+  def capture(stream = :stdout)
     begin
       stream = stream.to_s
       eval "$#{stream} = StringIO.new"

@@ -3,16 +3,16 @@ require 'spec_helper'
 describe Muxilla::Muxinate do
   describe 'help' do
     it 'outputs information about available commands' do
-      output = capture(:stdout){ Muxilla::Muxinate.start }
+      output = capture { Muxilla::Muxinate.start }
       output.should match /feature/
       output.should match /configure/
     end
     it 'describes feature' do
-      output = capture(:stdout){ Muxilla::Muxinate.start }
+      output = capture { Muxilla::Muxinate.start }
       output.should match /generate a new tmux config from a feature branch/
     end
     it 'describes configure' do
-      output = capture(:stdout){ Muxilla::Muxinate.start }
+      output = capture { Muxilla::Muxinate.start }
       output.should match /how your dev environment is setup/
     end
   end
@@ -20,36 +20,36 @@ describe Muxilla::Muxinate do
   describe 'tasks' do
     describe '#configure' do
       before do
-        $stdin.stub(:gets).and_return('~/dev')
+        $stdin.stub :gets => '~/dev'
         if File.exists? File.expand_path('~/.muxilla.conf')
           File.delete File.expand_path('~/.muxilla.conf')
         end
       end
       it 'prompts for the users development directory' do
         $stdin.should_receive(:gets).and_return('~/dev')
-        output = capture(:stdout){ Muxilla::Muxinate.start ['configure'] }
+        output = capture { Muxilla::Muxinate.start ['configure'] }
         output.should match /what is your development directory/
-        File.read(File.expand_path('~/.muxilla.conf')).should match /~\/dev/
+        File.read(File.expand_path '~/.muxilla.conf').should match /~\/dev/
       end
       it 'outputs a muxilla.conf file in the users home directory' do
-        capture(:stdout){ Muxilla::Muxinate.start ['configure'] }
-        File.exists?(File.expand_path('~/.muxilla.conf')).should be
+        capture { Muxilla::Muxinate.start ['configure'] }
+        File.exists?(File.expand_path '~/.muxilla.conf').should be
       end
       after do
-        File.delete File.expand_path('~/.muxilla.conf')
+        File.delete(File.expand_path '~/.muxilla.conf')
       end
     end
 
     describe '#feature' do
       it 'requires configuration' do
-        Muxilla::Muxinator.should_not_receive(:start)
-        output = capture(:stdout){ Muxilla::Muxinate.start ['feature', 'foo'] }
+        Muxilla::Muxinator.should_not_receive :start
+        output = capture { Muxilla::Muxinate.start ['feature', 'foo'] }
         output.should match /please run muxilla configure to setup/i
       end
       context 'after configuring' do
         before do
-          $stdin.stub(:gets).and_return('~/dev')
-          capture(:stdout){ Muxilla::Muxinate.start ['configure'] }
+          $stdin.stub :gets => '~/dev'
+          capture { Muxilla::Muxinate.start ['configure'] }
         end
         it 'calls the muxilla generator' do
           Muxilla::Muxinator.should_receive :start
@@ -60,14 +60,14 @@ describe Muxilla::Muxinate do
             mux = args.first
             mux.type.should == :feature
           end
-          Muxilla::Muxinate.start(['feature', 'foo'])
+          Muxilla::Muxinate.start ['feature', 'foo']
         end
         it 'uses the nickname' do
           Muxilla::Muxinator.should_receive(:start).with do |args|
             mux = args.first
             mux.nickname.should == 'foo'
           end
-          Muxilla::Muxinate.start(['feature', 'foo'])
+          Muxilla::Muxinate.start ['feature', 'foo']
         end
         it 'respects the update parameter' do
           Muxilla::Muxinator.should_receive(:start).with do |args|
@@ -109,7 +109,7 @@ describe Muxilla::Muxinate do
           File.read(tmux_config).should match 'foo'
         end
         after do
-          File.delete File.expand_path('~/.muxilla.conf')
+          File.delete(File.expand_path '~/.muxilla.conf')
         end
       end
     end

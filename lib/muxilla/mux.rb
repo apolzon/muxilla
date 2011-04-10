@@ -1,7 +1,7 @@
 module Muxilla
   class Mux
     attr_accessor :nickname, :type, :update, :id, :code, :rails, :resque
-    def initialize(nickname, options)
+    def initialize nickname, options
       @nickname = nickname
       @type = options[:type]
       @update = options[:update]
