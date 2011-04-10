@@ -5,10 +5,15 @@ describe Muxilla::Muxinate do
     it 'outputs information about available commands' do
       output = capture(:stdout){ Muxilla::Muxinate.start }
       output.should match /feature/
+      output.should match /configure/
     end
     it 'describes feature' do
-      output = capture(:stdout){ Muxilla::Muxinate.start['feature'] }
+      output = capture(:stdout){ Muxilla::Muxinate.start }
       output.should match /generate a new tmux config from a feature branch/
+    end
+    it 'describes configure' do
+      output = capture(:stdout){ Muxilla::Muxinate.start }
+      output.should match /how your dev environment is setup/
     end
   end
 
