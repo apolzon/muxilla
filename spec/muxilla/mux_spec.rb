@@ -33,5 +33,37 @@ describe Muxilla::Mux do
       mux = Muxilla::Mux.new(*@options)
       mux.id.should == 1234
     end
+    it 'stores the code hash' do
+      @options.last.merge! :code => 'foo,bar,garply'
+      mux = Muxilla::Mux.new(*@options)
+      mux.code.should include 'foo'
+      mux.code.should include 'bar'
+      mux.code.should include 'garply'
+    end
+    it 'returns an empty array when no code option is specified' do
+      mux = Muxilla::Mux.new(*@options)
+      mux.code.should == []
+    end
+    it 'stores the rails hash' do
+      @options.last.merge! :rails => 'foo,bar,garply'
+      mux = Muxilla::Mux.new(*@options)
+      mux.rails.should include 'foo'
+      mux.rails.should include 'bar'
+      mux.rails.should include 'garply'
+    end
+    it 'returns an empty array when no rails option is specified' do
+      mux = Muxilla::Mux.new(*@options)
+      mux.rails.should == []
+    end
+    it 'stores the resque hash' do
+      @options.last.merge! :resque => 'baz,quux'
+      mux = Muxilla::Mux.new(*@options)
+      mux.resque.should include 'baz'
+      mux.resque.should include 'quux'
+    end
+    it 'returns an empty array when no resque option is specified' do
+      mux = Muxilla::Mux.new(*@options)
+      mux.resque.should == []
+    end
   end
 end
