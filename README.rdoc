@@ -1,0 +1,28 @@
+== INSTALLATION
+  thor install <gem-home>/muxilla/lib/muxilla/muxinate.rb
+
+== USAGE
+Configure:
+  thor muxinate configure
+- Prompts for your development directory (i.e. ~/dev)
+- Configuration is stored in ~/.muxilla.conf
+- Removing this file will require re-running the configure task
+
+Feature:
+  thor muxinate feature myfeaturename [--id 123] --apps=key:value [--with-spork]
+- Will generate a myfeaturename.tmux configuration file
+- Will checkout first branch that matches id (if provided) or featurename
+
+== --apps Options
+code:list,of,apps
+- Creates a window for each app and opens vi
+
+rails:list,of,apps
+- Creates one server window, opening each app in a new pane
+
+resque:list,of,apps
+- Assumes a resque.sh script exists in Rails.root/script
+- Creates one resque window, booting one worker for each app in a new pane
+
+== Future Plans
+- Rails should imply code (declaring a rails app should boot the server and open code in vi)

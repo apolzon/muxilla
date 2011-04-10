@@ -1,0 +1,28 @@
+tmux start-server
+
+tmux new-session <%= mux.nickname %>
+tmux set-option base-index 1
+tmux new-window -t 1 -n 'editor'
+tmux new-window -t 2 -n 'tests' # spork and rspec
+tmux new-window -t 3 -n 'shell'
+tmux new-window -t 4 -n 'servers'
+tmux new-window -t 5 -n 'workers'
+
+    tmux splitw -t 4
+    tmux splitw -t 5
+
+  tmux select-layout -t 4 'even-horizontal'
+  tmux select-layout -t 5 'even-horizontal'
+
+# do some send_keys stuff to boot the proper servers
+# don't forget to source the rvmrc in each pane
+
+# --- below is ripped from tmuxinator source --- #
+
+tmux select-window -t <%= 'window(1)' %>
+
+if [ -z $TMUX ]; then
+    tmux -u attach-session -t <%= mux.nickname %>
+else
+    tmux -u switch-client -t <%= mux.nickname %>
+fi
