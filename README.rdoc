@@ -1,3 +1,6 @@
+== WARNING
+This is not yet finished! The below usage information is how the initial release will work.
+
 == INSTALLATION
   thor install <gem-home>/muxilla/lib/muxilla/muxinate.rb
 
