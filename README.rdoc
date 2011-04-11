@@ -16,7 +16,14 @@ Feature:
 - Will generate a myfeaturename.tmux configuration file
 - Will checkout first branch that matches id (if provided) or featurename
 
+Bug: (see Feature)
+  thor muxinate bug mybugname
+Chore: (see Feature)
+  thor muxinate chore mychorename
+
 == --apps Options
+- Assumes app code is located at <development-directory>/app_name
+
 code:list,of,apps
 - Creates a window for each app and opens vi
 
