@@ -16,8 +16,11 @@ module Muxilla
 
     def apps
       # delete this once the call has been removed from the template
-      @apps = []
-      @apps
+      @code
+    end
+
+    def dev_root
+      "~/dev"
     end
   end
 end

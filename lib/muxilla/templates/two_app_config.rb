@@ -1,54 +1,57 @@
 #!/bin/zsh
 tmux start-server
 
-if ! $(tmux has-session -t foo); then
+if ! $(tmux has-session -t <%= mux.nickname %>); then
 
-tmux new-session -d -s foo -n zsh
+tmux new-session -d -s <%= mux.nickname %> -n zsh
 
 # Create windows
-tmux new-window -t foo:1 -n editor
-tmux new-window -t foo:2 -n servers
-tmux new-window -t foo:3 -n workers
-tmux new-window -t foo:4 -n tests
-tmux new-window -t foo:5 -n console
+tmux new-window -t <%= mux.nickname %>:1 -n editor
+tmux new-window -t <%= mux.nickname %>:2 -n servers
+tmux new-window -t <%= mux.nickname %>:3 -n workers
+tmux new-window -t <%= mux.nickname %>:4 -n tests
+tmux new-window -t <%= mux.nickname %>:5 -n console
 
-# Setup one app
-tmux send-keys -t foo:0 'cd ~/dev/foo' C-m
-tmux send-keys -t foo:1 'cd foo && vim .' C-m
-tmux send-keys -t foo:2 'cd foo && rails s' C-m
-tmux send-keys -t foo:3 'cd foo && ./script/resque.sh' C-m
-tmux send-keys -t foo:4 'cd foo && spork' C-m
-tmux send-keys -t foo:5 'cd foo && rails c' C-m
+tmux send-keys -t <%= mux.nickname %>:0 'cd <%= mux.dev_root %>/<%= mux.apps.first %>' C-m
+tmux send-keys -t <%= mux.nickname %>:1 'cd <%= mux.dev_root %>/<%= mux.apps.first %> && vim .' C-m
+tmux send-keys -t <%= mux.nickname %>:2 'cd <%= mux.dev_root %>/<%= mux.apps.first %> && rails s' C-m
+tmux send-keys -t <%= mux.nickname %>:3 'cd <%= mux.dev_root %>/<%= mux.apps.first %> && ./script/resque.sh' C-m
+tmux send-keys -t <%= mux.nickname %>:4 'cd <%= mux.dev_root %>/<%= mux.apps.first %> && spork' C-m
+tmux send-keys -t <%= mux.nickname %>:5 'cd <%= mux.dev_root %>/<%= mux.apps.first %> && rails c' C-m
 
-# Setup second app
-tmux new-window -t foo:6 -n 'bar editor'
-tmux splitw -t foo:servers
-tmux splitw -t foo:workers
-tmux splitw -t foo:console
-tmux send-keys -t foo:6 'cd ~/dev/bar && vim .' C-m
+<%- mux.apps.each_with_index do |app, index| %>
+  <%- next if index == 0 %>
 
-tmux select-layout -t foo:servers even-horizontal
-tmux select-window -t foo:servers
-tmux select-pane -t right
-tmux send-keys 'cd ~/dev/bar && rails s -p 3001' C-m
+  tmux new-window -t <%= mux.nickname %>:6 -n '<%= app %> editor'
+  tmux splitw -t <%= mux.nickname %>:servers
+  tmux splitw -t <%= mux.nickname %>:workers
+  tmux splitw -t <%= mux.nickname %>:console
+  tmux send-keys -t <%= mux.nickname %>:6 'cd <%= mux.dev_root %>/<%= app %> && vim .' C-m
 
-tmux select-layout -t foo:workers even-horizontal
-tmux select-window -t foo:workers
-tmux select-pane -t right
-tmux send-keys 'cd ~/dev/bar && ./script/resque.sh' C-m
+  tmux select-layout -t <%= mux.nickname %>:servers even-horizontal
+  tmux select-window -t <%= mux.nickname %>:servers
+  tmux select-pane -t right
+  tmux send-keys 'cd <%= mux.dev_root %>/<%= app %> && rails s -p <%= 3000 + index %>' C-m
 
-tmux select-layout -t foo:console even-horizontal
-tmux select-window -t foo:console
-tmux select-pane -t right
-tmux send-keys 'cd ~/dev/bar && rails c' C-m
+  tmux select-layout -t <%= mux.nickname %>:workers even-horizontal
+  tmux select-window -t <%= mux.nickname %>:workers
+  tmux select-pane -t right
+  tmux send-keys 'cd <%= mux.dev_root %>/<%= app %> && ./script/resque.sh' C-m
+
+  tmux select-layout -t <%= mux.nickname %>:console even-horizontal
+  tmux select-window -t <%= mux.nickname %>:console
+  tmux select-pane -t right
+  tmux send-keys 'cd <%= mux.dev_root %>/<%= app %> && rails c' C-m
+
+<%- end %>
 
 
-tmux select-window -t foo:1
+tmux select-window -t <%= mux.nickname %>:1
 
 fi
 
 if [ -z $TMUX ]; then
-    tmux -u attach-session -t foo
+    tmux -u attach-session -t <%= mux.nickname %>
 else
-    tmux -u switch-client -t foo
+    tmux -u switch-client -t <%= mux.nickname %>
 fi

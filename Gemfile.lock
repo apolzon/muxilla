@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     muxilla (0.0.1)
+      json
       thor
 
 GEM
@@ -15,6 +16,7 @@ GEM
       chalofa_ruby-progressbar (~> 0.0.9)
       rspec (~> 2.0)
       rspec-instafail (~> 0.1.4)
+    json (1.5.1)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     rspec (2.5.0)
