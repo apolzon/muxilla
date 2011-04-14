@@ -1,25 +1,26 @@
 == WARNING
 This is not yet finished! The below usage information is how the initial release will work.
+Current v1 release only respects the apps=code: directive, sets up code, rails, and resque foreach, and assumes your development directory is ~/dev
 
 == INSTALLATION
   thor install <gem-home>/muxilla/lib/muxilla/muxinate.rb
 
 == USAGE
 Configure:
-  thor muxinate configure
+  thor muxinate:configure
 - Prompts for your development directory (i.e. ~/dev)
 - Configuration is stored in ~/.muxilla.conf
 - Removing this file will require re-running the configure task
 
 Feature:
-  thor muxinate feature myfeaturename [--id 123] --apps=key:value [--with-spork]
-- Will generate a myfeaturename.tmux configuration file
+  thor muxinate:feature myfeaturename [--id 123] --apps=key:value [--with-spork]
+- Will generate a myfeaturename.tmux (v1 always names this file tmux_config.tmux) configuration file
 - Will checkout first branch that matches id (if provided) or featurename
 
 Bug: (see Feature)
-  thor muxinate bug mybugname
+  thor muxinate:bug mybugname
 Chore: (see Feature)
-  thor muxinate chore mychorename
+  thor muxinate:chore mychorename
 
 == --apps Options
 - Assumes app code is located at <development-directory>/app_name
