@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), 'mux'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'muxinator'))
+
 module Muxilla
   class Muxinate < Thor
     require 'json'
