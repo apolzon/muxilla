@@ -8,7 +8,11 @@ module Muxilla
     end
 
     def create_tmux_config
-      template 'templates/tmux_config.tt', '~/tmux_config.tmux', :verbose => false
+      template 'templates/tmux_config.tt', self.class.output_file, :verbose => false
+    end
+
+    def self.output_file
+      '~/tmux_config.tmux'
     end
   end
 end

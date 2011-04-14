@@ -32,3 +32,11 @@ Rspec.configure do |config|
     end
   end
 end
+
+module Muxilla
+  class Muxinator < Thor::Group
+    def self.output_file
+      'output/tmux_config.tmux'
+    end
+  end
+end
