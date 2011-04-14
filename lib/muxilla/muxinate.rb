@@ -1,7 +1,7 @@
 module Muxilla
   class Muxinator < Thor::Group
     include Thor::Actions
-    argument :mux, :required => false
+    argument :mux
 
     def self.source_root
       File.dirname __FILE__
