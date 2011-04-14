@@ -8,7 +8,7 @@ module Muxilla
     end
 
     def create_tmux_config
-      template 'templates/tmux_config.tt', '~/tmux_config.tmux', :verbose => false
+      template File.expand_path(File.join(File.dirname(__FILE__), 'templates/tmux_config.tt')), '~/tmux_config.tmux', :verbose => false
     end
   end
 
