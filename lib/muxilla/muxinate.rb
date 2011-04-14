@@ -1,39 +1,7 @@
+require `echo $GEM_HOME`.chomp + "/gems/muxilla-0.0.1/lib/muxilla/muxinator"
+require `echo $GEM_HOME`.chomp + "/gems/muxilla-0.0.1/lib/muxilla/mux"
+
 module Muxilla
-  class Muxinator < Thor::Group
-    include Thor::Actions
-    argument :mux
-
-    def self.source_root
-      `echo $GEM_HOME`.chomp + "/gems/muxilla-0.0.1/lib/muxilla"
-    end
-
-    def create_tmux_config
-      template 'templates/tmux_config.tt', '~/tmux_config.tmux', :verbose => false
-    end
-  end
-
-  class Mux
-    attr_accessor :nickname, :type, :update, :id, :code, :rails, :resque
-    def initialize nickname, options
-      @nickname = nickname
-      @type = options[:type]
-      @update = options[:update]
-      @id = options[:id]
-      @code = @rails = @resque = []
-      if options[:apps]
-        @code = options[:apps]['code'].split ',' if options[:apps]['code']
-        @rails = options[:apps]['rails'].split ',' if options[:apps]['rails']
-        @resque = options[:apps]['resque'].split ',' if options[:apps]['resque']
-      end
-    end
-
-    def apps
-      # delete this once the call has been removed from the template
-      @apps = []
-      @apps
-    end
-  end
-
   class Muxinate < Thor
     require 'json'
     include Thor::Actions
@@ -89,8 +57,8 @@ module Muxilla
     end
 
     def muxinator_it type, nickname, options
-      @mux = Mux.new nickname, options.merge(:type => type)
-      Muxilla::Muxinator.start [@mux]
+      @mux = ::Muxilla::Mux.new nickname, options.merge(:type => type)
+      ::Muxilla::Muxinator.start [@mux]
     end
   end
 end
