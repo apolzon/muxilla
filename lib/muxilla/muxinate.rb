@@ -4,11 +4,11 @@ module Muxilla
     argument :mux
 
     def self.source_root
-      File.dirname __FILE__
+      `echo $GEM_HOME`.chomp + "/gems/muxilla-0.0.1/lib/muxilla"
     end
 
     def create_tmux_config
-      template File.expand_path(File.join(File.dirname(__FILE__), 'templates/tmux_config.tt')), '~/tmux_config.tmux', :verbose => false
+      template 'templates/tmux_config.tt', '~/tmux_config.tmux', :verbose => false
     end
   end
 
