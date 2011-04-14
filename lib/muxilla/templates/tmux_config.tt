@@ -22,11 +22,11 @@ tmux send-keys -t <%= mux.nickname %>:5 'cd <%= mux.dev_root %>/<%= mux.apps.fir
 <%- mux.apps.each_with_index do |app, index| %>
   <%- next if index == 0 %>
 
-  tmux new-window -t <%= mux.nickname %>:6 -n '<%= app %> editor'
+  tmux new-window -t <%= mux.nickname %>:<%= 5 + index %> -n '<%= app %> editor'
   tmux splitw -t <%= mux.nickname %>:servers
   tmux splitw -t <%= mux.nickname %>:workers
   tmux splitw -t <%= mux.nickname %>:console
-  tmux send-keys -t <%= mux.nickname %>:6 'cd <%= mux.dev_root %>/<%= app %> && vim .' C-m
+  tmux send-keys -t <%= mux.nickname %>:<%= 5 + index %> 'cd <%= mux.dev_root %>/<%= app %> && vim .' C-m
 
   tmux select-layout -t <%= mux.nickname %>:servers even-horizontal
   tmux select-window -t <%= mux.nickname %>:servers
